@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faça seu Login</title>
+</head>
+<body>
+
+    <form action="loginForm" onsubmit="processarLogin(event)">
+
+        <label for="Nome" >Digite seu Nome: </label>
+        <input type="text" id="Nome" name="Nome" required minlength="5" size="10" /><br><br>
+
+        <label for="email">Digite seu Email: </label>
+        <input type="email" name="email" size="30" required><br><br>
+
+        <label for="date">Informe sua Data de Nascimento: </label>
+        <input type="date" name="Date"  required max="2006-01-01"> <br><br>
+
+        <label for="Genero">Diga seu Genero: </label>
+        <select name="Genero" id="Genero" required>
+
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outros">Outros</option>
+            <option value="PrefiroNãoInformar">Prefiro não Informar</option>
+           
+        </select><br><br>
+
+        <label for="Interesses">Diga seus Interesses: </label>
+        <input type="checkbox" name="Interesse" id="Interesses1" 
+        value="Esporte">Esporte</option>
+        <input type="checkbox" name="Interesse" id="Interesses2" 
+        value="Musica">Musica</option>
+        <input type="checkbox" name="Interesse" id="Interesses3" 
+        value="Tecnologia">Tecnologia</option>
+        
+        <br><br>
+
+        <label for="Pais">Diga seu Pais de Origem: </label>
+        <select name="Pais" id="Pais" required>
+
+            <option value="Brasil">Brasil</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Alemanha">Alemanha</option>
+           
+        </select><br><br>
+
+        <label for="Biografia">Diga um pouco sobre você: </label><br>
+        <textarea name="Biografia" id="Biografia" cols="30" rows="10"></textarea><br><br>
+
+
+        <label labelfor="cpf">Digite seu Cpf: </label>
+        <input type="text" id="cpf" name="cpf" required ><br><br>
+
+        <label for="senha">Digite sua Senha: </label>
+        <input type="password" id="senha" name="senha" minlength="8" required><br><br>
+
+        <label for="senhanova">Confirme a Senha: </label>
+        <input type="password" id="senhanova" name="senhanova" minlength="8"required><br><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="mensagemErro" style="color: red;"></div>
+    <div id="mensagemSucesso" style="color: green;"></div>
+
+</body>
+        <script>
+
+            function processarLogin(event) {
+                event.preventDefault(); // Impede o envio padrão do formulário
+                let erros = [];
+
+                let senha = document.getElementById('senha').value;
+                let confirmarSenha = document.getElementById('senhanova').value;
+
+            if (senha !== confirmarSenha) {
+                erros.push("As senhas não correspondem.");
+
+            }
+
+             // Seleciona todos os checkboxes com o nome 'opcao'
+             const checkboxes = document.querySelectorAll('input[name="Interesse"]');
+             let peloMenosUmSelecionado = false;
+ 
+             // Verifica se pelo menos um checkbox está selecionado
+             checkboxes.forEach((checkbox) => {
+                 if (checkbox.checked) {
+                     peloMenosUmSelecionado = true;
+                 }
+             });
+
+             if (!peloMenosUmSelecionado) {
+                 alert('Por favor, selecione pelo menos uma opção.');
+                 return false; // Impede o envio do formulário
+             }
+
+             function validarCPF(){
+                var ao_cpf = document.forms.loginForm.ao_cpf.value;
+                var cpfValido = /^(([0-9]{3}\.[0-9]{3}.\.[0-9]{3}-[0-9]{2})$)/;
+
+                if(cpfValido.test(ao_cpf)== false){
+                    ao_cpf = ao_cpf.replace(/\D/g, "");
+
+                    if(ao_cpf.length = 11){
+                        ao_cpf = ao_cpf.replace(/(\d{3})(\d)/, "$1.$2");
+                        ao_cpf = ao_cpf.replace(/(\d{3})(\d)/, "$1.$2");
+                        ao_cpf = ao_cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+                        document.getElementById("ao_cpf").value = ao_cpf;
+                        return true;
+                    }else{
+                        alert("CPF inválido");
+                        return false;
+                    }
+                }
+             }
+
+            let mensagemErro = document.getElementById('mensagemErro');
+            let mensagemSucesso = document.getElementById('mensagemSucesso');
+            if (erros.length > 0) {
+                mensagemSucesso.innerHTML = ""; // Limpa a mensagem de sucesso
+                mensagemErro.innerHTML = erros.join('<br>');
+            } else {
+                mensagemErro.innerHTML = ""; // Limpa mensagens de erro
+                mensagemSucesso.innerHTML = "Login realizado com sucesso!";
+            }
+
+        }
+    
+            
+        
+
+
+        </script>
+</html>
